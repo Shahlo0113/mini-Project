@@ -1,8 +1,27 @@
 variable "subnet" {
   type = map(object({
+    name              = string
     cidr_block        = string
     availability_zone = string
   }))
+
+  default = {
+    app = {
+      name              = "APP"
+      cidr_block        = "172.16.0.0/24"
+      availability_zone = "us-east-1a"
+    },
+    dev = {
+      name              = "DEV"
+      cidr_block        = "172.16.1.0/24"
+      availability_zone = "us-east-1b"
+    },
+    web = {
+      name              = "WEB"
+      cidr_block        = "172.16.2.0/24"
+      availability_zone = "us-east-1c"
+    },
+  }
 }
 variable "prefix" {
   type    = string

@@ -67,7 +67,7 @@ resource "aws_instance" "server" {
   instance_type = "t2.micro"
   key_name      = aws_key_pair.key.key_name
 
-  subnet_id = aws_subnet.subnet[each.value.subnet].id
+  subnet_id = aws_subnet.subnet[each.key].id
   #vpc_security_group_ids = [module.security_groups.security_group_id["cloud_2023_sg"]] 
   vpc_security_group_ids = [module.security-groups.security_group_id["Mini_project_sg"]]
   user_data              = <<-EOF
