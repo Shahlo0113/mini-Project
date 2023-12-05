@@ -1,27 +1,8 @@
 variable "subnet" {
   type = map(object({
-    name              = string
     cidr_block        = string
     availability_zone = string
   }))
-
-  default = {
-    app = {
-      name              = "APP"
-      cidr_block        = "172.16.0.0/24"
-      availability_zone = "us-east-1a"
-    },
-    dev = {
-      name              = "DEV"
-      cidr_block        = "172.16.1.0/24"
-      availability_zone = "us-east-1b"
-    },
-    web = {
-      name              = "WEB"
-      cidr_block        = "172.16.2.0/24"
-      availability_zone = "us-east-1c"
-    },
-  }
 }
 variable "prefix" {
   type    = string
@@ -53,19 +34,19 @@ variable "security_groups" {
 
 variable "ec2" {
   type = map(object({
-    server_name = string,
+    subnet_name = string,
     # cidr_block = string
     # availability_zone = string
   }))
   default = {
     app = {
-      server_name = "APP"
+      subnet_name = "pub_sub_1"
     }
     dev = {
-      server_name = "DEV"
+      subnet_name = "pub_sub_2"
     }
     web = {
-      server_name = "WEB"
+      subnet_name = "pub_sub_3"
     }
   }
 }

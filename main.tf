@@ -1,5 +1,5 @@
 resource "aws_key_pair" "key" {
-  key_name   = "$(var.prefix)-key"
+  key_name   = "${var.prefix}-key"
   public_key = file("~/.ssh/id_rsa.pub")
 }
 
@@ -8,7 +8,7 @@ resource "aws_vpc" "vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   tags = {
-    Name = "$(var.prefix)-vpc"
+    Name = "${var.prefix}-vpc"
   }
 }
 
@@ -27,7 +27,7 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "$[var.prefix]-igw"
+    Name = "${var.prefix}-igw"
   }
 }
 
@@ -67,17 +67,17 @@ resource "aws_instance" "server" {
   instance_type = "t2.micro"
   key_name      = aws_key_pair.key.key_name
 
-  subnet_id = aws_subnet.subnet[each.key].id
+  subnet_id = aws_subnet.subnet[each.value.subnet_name].id
   #vpc_security_group_ids = [module.security_groups.security_group_id["cloud_2023_sg"]] 
   vpc_security_group_ids = [module.security-groups.security_group_id["Mini_project_sg"]]
   user_data              = <<-EOF
-              #!/bin/bash
-              sudo yum update -y
-              sudo yum install -y httpd
-              sudo systemctl start httpd.service
-              sudo systemctl enable httpd.service
-              sudo echo "<h1> HELLO from ${each.value.server_name} </h1>" > /var/www/html/index.html                  
-              EOF
+                            #!/bin/bash
+                            sudo yum update -y
+                            sudo yum install -y httpd
+                            sudo systemctl start httpd.service
+                            sudo systemctl enable httpd.service
+                            sudo echo "<h1> HELLO from ${upper(each.key)}_SERVER </h1>" > /var/www/html/index.html                  
+                            EOF
   tags = {
     Name = join("_", [var.prefix, each.key])
   }

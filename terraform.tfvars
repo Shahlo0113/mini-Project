@@ -1,5 +1,5 @@
 security_groups = {
-  "Mini_project_sg" : {
+  "Mini_project_sg" = {
     description = "Security group for web servers"
     ingress_rules = [
       {
@@ -36,4 +36,23 @@ security_groups = {
       }
     ]
   }
+}
+
+subnet = {
+  pub_sub_1= {
+    cidr_block        = "172.16.0.0/24"
+    availability_zone = "us-east-1a"
+  },
+  pub_sub_2 = {
+    cidr_block        = "172.16.1.0/24"
+    availability_zone = "us-east-1b"
+  },
+  pub_sub_3 = {
+    cidr_block        = "172.16.2.0/24"
+    availability_zone = "us-east-1c"
+  },
+}
+
+ec2 = {
+  
 }
